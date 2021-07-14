@@ -16,8 +16,7 @@
 ## Association
 
 has_many :items
-has_one :order
-
+has_many :purchases
 
 ## items テーブル
 
@@ -38,37 +37,36 @@ has_one :order
 ## Association
 
 belongs_to :user
-has_many :item_orders
-has_many :orders, through: :item_orders
+has_many :purchases
 
+## purchases テーブル
+
+| Column | Type       | Options                        |
+| ------ | ---------- | ------------------------------ |
+| user   | references | null: false, foreign_key: true |
+| item   | references | null: false, foreign_key: true |
+
+## Association
+
+belongs_to :user
+belongs_to :item
+has_one :order
 
 ## orders テーブル
 
-| Column        | Type    | Options     |
-| ------------- | ------- | ----------- |
-| postal_code   | string  | null: false |
-| prefecture_id | integer | null: false |
-| city          | string  | null: false |
-| addresses     | string  | null: false |
-| building      | string  |             |
-| phone_number  | integer | null: false |
+| Column        | Type       | Options                        |
+| ------------- | ---------- | ------------------------------ |
+| postal_code   | string     | null: false                    |
+| prefecture_id | integer    | null: false                    |
+| city          | string     | null: false                    |
+| addresses     | string     | null: false                    |
+| building      | string     |                                |
+| phone_number  | integer    | null: false                    |
+| purchase      | references | null: false, foreign_key: true |
 <!-- tokenはattr_accessorで追加する -->
 <!-- _idの記述があるカラムはActiveHashで追加する -->
 
 ## Association
 
-belongs_to :user
-has_many :item_orders
-has_many :items, through: :item_orders
+belongs_to :purchase
 
-## item_orders テーブル
-
-| Column | Type       | Options                        |
-| ------ | ---------- | ------------------------------ |
-| item   | references | null: false, foreign_key: true |
-| order  | references | null: false, foreign_key: true |
-
-## Association
-
-belongs_to :item
-belongs_to :order
