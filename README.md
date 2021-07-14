@@ -2,16 +2,16 @@
 
 ## users テーブル
 
-| Column             | Type   | Options     |
-| ------------------ | ------ | ----------- |
-| nickname           | string | null: false |
-| email              | string | null: false |
-| encrypted_password | string | null: false |
-| first_name         | string | null: false |
-| last_name          | string | null: false |
-| first_name_kana    | string | null: false |
-| last_name_kana     | string | null: false |
-| birthday           | date   | null: false |
+| Column             | Type   | Options                   |
+| ------------------ | ------ | ------------------------- |
+| nickname           | string | null: false               |
+| email              | string | null: false, unique: true |
+| encrypted_password | string | null: false               |
+| first_name         | string | null: false               |
+| last_name          | string | null: false               |
+| first_name_kana    | string | null: false               |
+| last_name_kana     | string | null: false               |
+| birthday           | date   | null: false               |
 
 ## Association
 
@@ -37,7 +37,7 @@ has_many :purchases
 ## Association
 
 belongs_to :user
-has_many :purchases
+has_one :purchase
 
 ## purchases テーブル
 
@@ -61,7 +61,7 @@ has_one :order
 | city          | string     | null: false                    |
 | addresses     | string     | null: false                    |
 | building      | string     |                                |
-| phone_number  | integer    | null: false                    |
+| phone_number  | string     | null: false                    |
 | purchase      | references | null: false, foreign_key: true |
 <!-- tokenはattr_accessorで追加する -->
 <!-- _idの記述があるカラムはActiveHashで追加する -->
