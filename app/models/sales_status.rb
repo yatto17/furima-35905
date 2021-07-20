@@ -1,5 +1,5 @@
-class Sales_status < ActiveHash::Base
-  self.date = [
+class SalesStatus < ActiveHash::Base
+  self.data = [
     { id: 1, status: '---' },
     { id: 2, status: '新品・未使用' },
     { id: 3, status: '未使用に近い' },
@@ -9,7 +9,7 @@ class Sales_status < ActiveHash::Base
     { id: 7, status: '全体的に状態が悪い' }
   ]
 
-  inclede ActiveHash::Associations
+  include ActiveHash::Associations
   has_many :items
-
+  
 end
