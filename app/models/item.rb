@@ -10,13 +10,16 @@ class Item < ApplicationRecord
   belongs_to_active_hash :prefecture
   belongs_to_active_hash :scheduled_delivery
 
-  validates :image, :name, :info, presence: true
-  validate :before_type_cast
-  with_options presence: true,
-               numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999,
-                               message: 'is out of setting range' } do
+  with_options presence: true do
+    validates :image
+    validates :name
+    validates :info
     validates :price
   end
+
+  validate :before_type_cast
+  validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999,
+                                    message: 'is out of setting range' }
 
   with_options numericality: { other_than: 1, message: "can't be blank" } do
     validates :category_id
@@ -29,10 +32,6 @@ class Item < ApplicationRecord
   private
 
   def before_type_cast
-    errors.add(:price, 'is invalid. Input half-width characters') unless price_before_type_cast =~ /\A[0-9]+\z/
+    errors.add(:price, 'is invalid. Input half-width characters') if price_before_type_cast =~ /\A\D|[a-z]+\z/
   end
 end
-# def before_type_cast
-#   self.price = self.price_before_type_cast
-# end
-# format: { with: /\A[0-9]+\z/, message: 'is invalid. Input half-width characters' }

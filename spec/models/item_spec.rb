@@ -12,12 +12,12 @@ RSpec.describe Item, type: :model do
       end
 
       it 'priceが300以上なら出品できること' do
-        @item.price = '300'
+        @item.price = 300
         expect(@item).to be_valid
       end
 
       it 'priceが9999999以下なら出品できること' do
-        @item.price = '9999999'
+        @item.price = 9_999_999
         expect(@item).to be_valid
       end
     end
