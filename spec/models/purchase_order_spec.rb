@@ -102,6 +102,12 @@ RSpec.describe PurchaseOrder, type: :model do
         expect(@purchase_order.errors.full_messages).to include('Phone number is too short')
       end
 
+      it 'phone_numberが12文字以上では購入できないこと' do
+        @purchase_order.phone_number = '012345678901'
+        @purchase_order.valid?
+        expect(@purchase_order.errors.full_messages).to include('Phone number is too short')
+      end
+
       it 'phone_numberにハイフンがあると購入できないこと' do
         @purchase_order.phone_number = '090-1234-5678'
         @purchase_order.valid?

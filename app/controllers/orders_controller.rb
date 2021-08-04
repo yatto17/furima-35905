@@ -32,11 +32,7 @@ class OrdersController < ApplicationController
 
   def move_to_root
     @purchases = Purchase.pluck(:item_id)
-    if @purchases.include?(@item.id)
-      redirect_to root_path
-    elsif @item.user_id == current_user.id
-      redirect_to root_path
-    end
+    redirect_to root_path if @purchases.include?(@item.id) || @item.user_id == current_user.id
   end
 
   def pay_item

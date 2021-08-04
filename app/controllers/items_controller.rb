@@ -52,11 +52,7 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    if @item.user_id == current_user.id
-      redirect_to root_path if @purchases.include?(@item.id)
-    else
-      redirect_to root_path
-    end
+    redirect_to root_path if @item.user_id != current_user.id || @purchases.include?(@item.id)
   end
 
   def sold_out_id
