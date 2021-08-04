@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, except: :index
-  before_action :set_item, only: [:index, :create]
+  before_action :authenticate_user!
+  before_action :set_item
+  before_action :move_to_root
 
   def index
     @purchase_order = PurchaseOrder.new
@@ -25,6 +26,17 @@ class OrdersController < ApplicationController
 
   def set_item
     @item = Item.find(params[:item_id])
+  end
+
+  def move_to_root
+    @purchases = Purchase.pluck(:item_id)
+    if @purchases.include?(@item.id)
+      redirect_to root_path
+    else
+      if @item.user_id == current_user.id
+        redirect_to root_path
+      end
+    end
   end
 
   def pay_item
