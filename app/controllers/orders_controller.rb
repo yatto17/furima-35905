@@ -12,16 +12,18 @@ class OrdersController < ApplicationController
     if @purchase_order.valid?
       pay_item
       @purchase_order.save
-      return redirect_to root_path
+      redirect_to root_path
     else
       render :index
     end
   end
 
   private
-  
+
   def order_params
-    params.require(:purchase_order).permit(:postal_code, :prefecture_id, :city, :addresses, :building, :phone_number).merge(user_id: current_user.id, item_id: params[:item_id], token: params[:token])
+    params.require(:purchase_order).permit(:postal_code, :prefecture_id, :city, :addresses, :building, :phone_number).merge(
+      user_id: current_user.id, item_id: params[:item_id], token: params[:token]
+    )
   end
 
   def set_item
@@ -32,15 +34,13 @@ class OrdersController < ApplicationController
     @purchases = Purchase.pluck(:item_id)
     if @purchases.include?(@item.id)
       redirect_to root_path
-    else
-      if @item.user_id == current_user.id
-        redirect_to root_path
-      end
+    elsif @item.user_id == current_user.id
+      redirect_to root_path
     end
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
       amount: @item.price,
       card: order_params[:token],
