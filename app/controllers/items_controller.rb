@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :set_item, only: [:edit, :update, :show, :destroy]
+  before_action :sold_out_id, only: [:index, :show, :edit]
   before_action :move_to_index, only: [:edit, :update]
 
   def index
@@ -51,6 +52,10 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    redirect_to root_path unless @item.user_id == current_user.id
+    redirect_to root_path if @item.user_id != current_user.id || @purchases.include?(@item.id)
+  end
+
+  def sold_out_id
+    @purchases = Purchase.pluck(:item_id)
   end
 end
