@@ -47,6 +47,7 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+# 以下 AWS EC2 自動デプロイ用記述
 production:
   <<: *default
   database: furima_35905_production

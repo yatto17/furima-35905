@@ -34,6 +34,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'faker'
+  # 以下 AWS EC2 自動デプロイ用gem
   gem 'capistrano'
   gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
@@ -59,6 +60,7 @@ group :test do
   gem 'webdrivers'
 end
 
+# AWS EC2用gem
 group :production do
   gem 'unicorn', '5.4.1'
 end

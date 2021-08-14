@@ -1,3 +1,5 @@
+# AWS EC2 自動デプロイ用ファイル
+
 # Load DSL and set up stages
 require "capistrano/setup"
 

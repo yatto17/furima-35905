@@ -1,3 +1,6 @@
+# AWS EC2 自動デプロイ時に必要な記述（最下部）
+
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
