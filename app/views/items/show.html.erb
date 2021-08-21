@@ -82,16 +82,15 @@
   <%# /商品の概要 %>
 
   <div class="comments-box">
-    
-    <div id="comments" class="comment-box">
+    <div class="comment-box">
       <h4>＜コメント一覧＞</h4>
       <div class="comment-area">
         <% @comments.reverse_each do |comment| %>
-          <div class="comment-field">
-            <div class="user-name">
+          <div id="comments" class="comment-field">
+            <div id="user_name" class="user-name">
               <%= comment.user.nickname %>
             </div>
-            <div class="comment">
+            <div id="comment" class="comment">
               <%= comment.text %>
             </div>
           </div>
