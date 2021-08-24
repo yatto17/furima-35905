@@ -7,6 +7,8 @@ require("@rails/ujs").start()
 
 require("@rails/activestorage").start()
 require("channels")
+// require("jquery")
+// require("rails-ujs")
 require("../commission")
 require("../card")
 require("../preview")
@@ -17,3 +19,10 @@ require("../preview")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+$(function() {
+  $('.item-img-content').slick({
+      dots: true,
+      autoplay: true,
+      autoplaySpeed: 3000,
+  });
+});
