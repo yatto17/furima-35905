@@ -132,7 +132,9 @@
       <li class='list'>
         <%= link_to item_path(item) do %>
         <div class='item-img-content'>
-          <%= image_tag item.image, class: "item-img" %>
+          <% item.images.each do |image| %>
+            <%= image_tag image, class: "item-img" %>
+          <% end %>
 
           <% if @purchases.include?(item.id) %>
           <div class='sold-out'>
