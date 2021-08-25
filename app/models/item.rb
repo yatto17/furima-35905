@@ -5,6 +5,8 @@ class Item < ApplicationRecord
   has_many_attached :images
   has_one :purchase
   has_many :comments
+  has_many :item_tags
+  has_many :tags, through: :item_tags
 
   belongs_to_active_hash :category
   belongs_to_active_hash :sales_status
