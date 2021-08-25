@@ -89,9 +89,9 @@ belongs_to :item
 
 ## tags テーブル
 
-| Column | Type   | Options     |
-| ------ | ------ | ----------- |
-| name   | string | null: false |
+| Column   | Type   | Options     |
+| -------- | ------ | ----------- |
+| tag_name | string | null: false |
 
 ## Association
 
