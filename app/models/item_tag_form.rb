@@ -27,8 +27,19 @@ class ItemTagForm
   def save
     item = Item.create(images: images, name: name, info: info, price: price, category_id: category_id, sales_status_id: sales_status_id,
                        shipping_fee_id: shipping_fee_id, prefecture_id: prefecture_id, scheduled_delivery_id: scheduled_delivery_id, user_id: user_id)
-    tag = Tag.create(tag_name: tag_name)
+    tag = Tag.where(tag_name: tag_name).first_or_initialize
+    tag.save
+
     ItemTag.create(item_id: item.id, tag_id: tag.id)
+  end
+
+  def update
+    item = Item.update(images: images, name: name, info: info, price: price, category_id: category_id, sales_status_id: sales_status_id,
+      shipping_fee_id: shipping_fee_id, prefecture_id: prefecture_id, scheduled_delivery_id: scheduled_delivery_id, user_id: user_id)
+    tag = Tag.where(tag_name: tag_name).first_or_initialize
+    tag.update
+    
+    ItemTag.update(item_id: item.id, tag_id: tag.id)
   end
 
   private
