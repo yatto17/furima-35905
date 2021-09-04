@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :set_item, only: [:edit, :update, :show, :destroy]
+  before_action :set_item_tag, only: [:edit, :update, :show, :destroy]
   before_action :sold_out_id, only: [:index, :show, :edit, :update]
   before_action :move_to_index, only: [:edit, :update]
 
@@ -9,12 +9,13 @@ class ItemsController < ApplicationController
   end
 
   def new
-    @item = Item.new
+    @item_tag = ItemTagForm.new
   end
 
   def create
-    @item = Item.new(item_params)
-    if @item.save
+    @item_tag = ItemTagForm.new(item_params)
+    if @item_tag.valid?
+      @item_tag.save
       redirect_to root_path
     else
       render :new
@@ -25,7 +26,8 @@ class ItemsController < ApplicationController
   end
 
   def update
-    if @item.update(item_params)
+    if @item.valid?
+      @item.update(item_params)
       redirect_to item_path(@item.id)
     else
       render :edit
@@ -42,15 +44,21 @@ class ItemsController < ApplicationController
     redirect_to root_path
   end
 
+  def search
+    return nil if params[:keyword] == ""
+    tag = Tag.where(['tag_name LIKE ?', "%#{params[:keyword]}%"])
+    render json:{ keyword: tag }
+  end
+
   private
 
   def item_params
-    params.require(:item).permit(:name, :info, :price, :category_id, :sales_status_id, :shipping_fee_id, :prefecture_id,
-                                 :scheduled_delivery_id, images: []).merge(user_id: current_user.id)
+    params.require(:item_tag_form).permit(:name, :info, :price, :category_id, :sales_status_id, :shipping_fee_id, :prefecture_id,
+                                 :scheduled_delivery_id, :tag_name, images: []).merge(user_id: current_user.id)
   end
 
-  def set_item
-    @item = Item.find(params[:id])
+  def set_item_tag
+    @item = ItemTagForm.find(params[:id])
   end
 
   def move_to_index

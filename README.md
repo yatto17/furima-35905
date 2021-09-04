@@ -40,6 +40,8 @@ has_many :comments
 belongs_to :user
 has_one :purchase
 has_many :comments
+has_many :item_tags
+has_many :tags, through: :item_tags
 
 ## purchases テーブル
 
@@ -84,3 +86,26 @@ belongs_to :purchase
 
 belongs_to :user
 belongs_to :item
+
+## tags テーブル
+
+| Column   | Type   | Options     |
+| -------- | ------ | ----------- |
+| tag_name | string | null: false |
+
+## Association
+
+has_many :item_tags
+has_many :items, through: :item_tags
+
+## item_tags テーブル
+
+| Column | Type       | Options                        |
+| ------ | ---------- | ------------------------------ |
+| item   | references | null: false, foreign_key: true |
+| tag    | references | null: false, foreign_key: true |
+
+## Association
+
+belongs_to :item
+belongs_to :tag
