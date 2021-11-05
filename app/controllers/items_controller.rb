@@ -23,11 +23,25 @@ class ItemsController < ApplicationController
   end
 
   def edit
+    @item_tag = ItemTagForm.new(
+                  images: @item.images,
+                  name: @item.name,
+                  info: @item.info,
+                  price: @item.price,
+                  category_id: @item.category_id,
+                  sales_status_id: @item.sales_status_id,
+                  shipping_fee_id: @item.shipping_fee_id,
+                  prefecture_id: @item.prefecture_id,
+                  scheduled_delivery_id: @item.scheduled_delivery_id,
+                  user_id: @item.user_id,
+                  tag_name: @tag
+                )
   end
 
   def update
-    if @item.valid?
-      @item.update(item_params)
+    @item_tag = ItemTagForm.new(update_params)
+    if @item_tag.valid?
+      @item_tag.update
       redirect_to item_path(@item.id)
     else
       render :edit
@@ -57,8 +71,14 @@ class ItemsController < ApplicationController
                                  :scheduled_delivery_id, :tag_name, images: []).merge(user_id: current_user.id)
   end
 
+  def update_params
+    params.require(:item_tag_form).permit(:name, :info, :price, :category_id, :sales_status_id, :shipping_fee_id, :prefecture_id,
+                                          :scheduled_delivery_id, :tag_name, images: []).merge(user_id: current_user.id, item_id: params[:id])
+  end
+
   def set_item_tag
-    @item = ItemTagForm.find(params[:id])
+    @item = Item.find(params[:id])
+    @tag = @item.tags[0][:tag_name]
   end
 
   def move_to_index

@@ -1,7 +1,7 @@
 class ItemTagForm
   include ActiveModel::Model
 
-  attr_accessor :name, :info, :price, :images, :category_id, :sales_status_id, :shipping_fee_id, :prefecture_id, :scheduled_delivery_id, :tag_name, :user_id
+  attr_accessor :name, :info, :price, :images, :category_id, :sales_status_id, :shipping_fee_id, :prefecture_id, :scheduled_delivery_id, :tag_name, :user_id, :item_id
 
   with_options presence: true do
     validates :images
@@ -34,12 +34,14 @@ class ItemTagForm
   end
 
   def update
-    item = Item.update(images: images, name: name, info: info, price: price, category_id: category_id, sales_status_id: sales_status_id,
-      shipping_fee_id: shipping_fee_id, prefecture_id: prefecture_id, scheduled_delivery_id: scheduled_delivery_id, user_id: user_id)
+    @item = Item.where(id: item_id)
+    item = @item.update(images: images, name: name, info: info, price: price, category_id: category_id, sales_status_id: sales_status_id,
+                        shipping_fee_id: shipping_fee_id, prefecture_id: prefecture_id, scheduled_delivery_id: scheduled_delivery_id, user_id: user_id)
     tag = Tag.where(tag_name: tag_name).first_or_initialize
-    tag.update
-    
-    ItemTag.update(item_id: item.id, tag_id: tag.id)
+    tag.save
+
+    map = ItemTag.where(item_id: item_id)
+    map.update(item_id: item_id, tag_id: tag.id)
   end
 
   private
