@@ -6,18 +6,22 @@
     <h2 class="name">
       <%= @item.name %>
     </h2>
-    <div class="item-img-content">
-      <% @item.images.each do |image| %>
-        <%= image_tag image, class: "item-box-img" %>
-      <% end %>
-      
-      <% if @purchases.include?(@item.id) %>
-      <div class="sold-out">
-        <span>Sold Out!!</span>
+    <% if @purchases.include?(@item.id) %>
+      <div class='item-img-content'>
+        <% @item.images.each do |image| %>
+          <div class='sold-out'>
+            <%= image_tag image, class: "item-box-img" %>
+            <span>Sold Out!!</span>
+          </div>
+        <% end %>
       </div>
-      <% end %>
-      
-    </div>
+    <% else %>
+      <div class='item-img-content'>
+          <% @item.images.each do |image| %>
+            <%= image_tag image, class: "item-box-img" %>
+          <% end %>
+      </div>
+    <% end %>
     <div class="item-price-box">
       <span class="item-price">
         ¥ <%= @item.price %>

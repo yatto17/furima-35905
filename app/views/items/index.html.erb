@@ -131,18 +131,22 @@
       <% @items.each do |item| %>
       <li class='list'>
         <%= link_to item_path(item) do %>
-        <div class='item-img-content'>
-          <% item.images.each do |image| %>
-            <%= image_tag image, class: "item-img" %>
-          <% end %>
-
-          <% if @purchases.include?(item.id) %>
-          <div class='sold-out'>
-            <span>Sold Out!!</span>
+        <% if @purchases.include?(item.id) %>
+          <div class='item-img-content'>
+            <% item.images.each do |image| %>
+              <div class='sold-out'>
+                <%= image_tag image, class: "item-img" %>
+                <span>Sold Out!!</span>
+              </div>
+            <% end %>
           </div>
-          <% end %>
-          
-        </div>
+        <% else %>
+          <div class='item-img-content'>
+              <% item.images.each do |image| %>
+                <%= image_tag image, class: "item-img" %>
+              <% end %>
+          </div>
+        <% end %>
         <div class='item-info'>
           <h3 class='item-name'>
             <%= item.name %>

@@ -23,7 +23,12 @@ require("../tag")
 $(function() {
   $('.item-img-content').slick({
       dots: true,
+      infinite: true,
+      speed: 1500,
+      fade: true,
+      cssEase: 'linear',
       autoplay: true,
       autoplaySpeed: 3000,
+      // centerPadding: 70%
   });
 });
